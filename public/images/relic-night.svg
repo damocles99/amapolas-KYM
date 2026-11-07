@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="400" y1="0" x2="400" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1b0c18"/>
+      <stop offset="0.55" stop-color="#120b14"/>
+      <stop offset="1" stop-color="#070609"/>
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(520 158) rotate(90) scale(230)">
+      <stop stop-color="#e11d48" stop-opacity="0.34"/>
+      <stop offset="0.55" stop-color="#881337" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#881337" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="moon" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(490 124) rotate(55) scale(122)">
+      <stop stop-color="#ff8fa3"/>
+      <stop offset="0.45" stop-color="#e11d48"/>
+      <stop offset="1" stop-color="#6d1230"/>
+    </radialGradient>
+    <linearGradient id="hill" x1="400" y1="390" x2="400" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d0d18"/>
+      <stop offset="1" stop-color="#09070a"/>
+    </linearGradient>
+    <linearGradient id="arch" x1="400" y1="60" x2="400" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5b2439" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#1a0c15" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="poppy" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#ff6b8a"/>
+      <stop offset="0.5" stop-color="#e11d48"/>
+      <stop offset="1" stop-color="#7f1030"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="mist" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="26"/>
+    </filter>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.055"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <rect width="800" height="600" fill="url(#moonGlow)"/>
+
+  <!-- stars -->
+  <g fill="#fecdd3" opacity="0.55">
+    <circle cx="96" cy="86" r="1.4"/>
+    <circle cx="164" cy="140" r="1"/>
+    <circle cx="232" cy="64" r="1.2"/>
+    <circle cx="318" cy="118" r="0.9"/>
+    <circle cx="402" cy="54" r="1.3"/>
+    <circle cx="684" cy="92" r="1.1"/>
+    <circle cx="738" cy="168" r="1.5"/>
+    <circle cx="620" cy="52" r="1"/>
+    <circle cx="708" cy="248" r="0.8"/>
+    <circle cx="58" cy="214" r="1"/>
+    <circle cx="272" cy="206" r="0.8"/>
+    <circle cx="754" cy="330" r="1.1"/>
+  </g>
+
+  <!-- moon -->
+  <circle cx="520" cy="158" r="150" fill="#e11d48" opacity="0.33" filter="url(#glow)"/>
+  <circle cx="520" cy="158" r="92" fill="url(#moon)"/>
+  <circle cx="520" cy="158" r="92" stroke="#ffb3bd" stroke-opacity="0.25"/>
+  <circle cx="489" cy="132" r="16" fill="#7f1030" opacity="0.35"/>
+  <circle cx="548" cy="188" r="10" fill="#7f1030" opacity="0.3"/>
+  <circle cx="532" cy="112" r="7" fill="#7f1030" opacity="0.3"/>
+
+  <!-- cathedral arches -->
+  <g stroke="url(#arch)" stroke-width="2" fill="none">
+    <path d="M72 600V286c0-78 52-132 118-132s118 54 118 132v314"/>
+    <path d="M100 600V290c0-64 40-108 90-108s90 44 90 108v310"/>
+    <path d="M612 600V286c0-78 52-132 118-132s118 54 118 132v314"/>
+    <path d="M640 600V290c0-64 40-108 90-108s90 44 90 108v310"/>
+    <path d="M356 600V214c0-64 20-110 44-110s44 46 44 110v386" stroke-opacity="0.55"/>
+  </g>
+  <g fill="#5b2439" opacity="0.35">
+    <path d="M190 154l14 26h-28l14-26z"/>
+    <path d="M730 154l14 26h-28l14-26z"/>
+    <circle cx="190" cy="236" r="3"/>
+    <circle cx="730" cy="236" r="3"/>
+  </g>
+
+  <!-- distant mist -->
+  <ellipse cx="400" cy="438" rx="360" ry="58" fill="#881337" opacity="0.16" filter="url(#mist)"/>
+  <ellipse cx="190" cy="478" rx="220" ry="42" fill="#e11d48" opacity="0.08" filter="url(#mist)"/>
+
+  <!-- hills -->
+  <path d="M0 470c96-38 170-48 262-20 102 31 166 12 252-20 92-34 196-32 286 12v158H0V470z" fill="url(#hill)"/>
+  <path d="M0 520c118-28 206-24 306 4 112 31 202 18 300-14 72-24 134-20 194 2v88H0v-80z" fill="#080609"/>
+
+  <!-- two lovers silhouette -->
+  <g fill="#070609">
+    <!-- left figure: dress -->
+    <path d="M365 590c-4-28-2-61 4-91 5-25 9-43 6-61-4-25 3-42 17-48 13-6 27 2 31 19 3 12 0 25-2 38-3 19-1 34 6 53 10 27 17 55 17 90h-79z"/>
+    <path d="M387 355c-13 0-22-11-22-24 0-15 10-26 23-26s22 10 22 25c0 14-9 25-23 25z"/>
+    <path d="M374 392c-13 0-23-7-28-17-4-8 1-14 9-11 8 3 14 8 23 9 8 1 12 4 10 10-2 5-7 9-14 9z" opacity="0.85"/>
+    <!-- right figure: coat -->
+    <path d="M432 590c-3-29-1-60 3-88 3-22 5-38 2-57-3-24 4-40 18-46 14-5 26 4 29 21 2 12-2 23-4 35-3 17 0 31 5 48 7 23 12 50 12 87h-65z"/>
+    <path d="M452 352c-13 0-23-10-23-24s10-25 24-25 23 11 23 25-11 24-24 24z"/>
+    <!-- joined hands -->
+    <path d="M409 424c8-3 15-3 22 0 4 1 4 6-1 7-7 2-14 1-21-1-5-2-5-4 0-6z"/>
+    <!-- coat collar -->
+    <path d="M440 362c5-9 13-12 22-8l-4 19c-5 6-10 7-15 2l-3-13z" fill="#180b13"/>
+  </g>
+
+  <!-- foreground poppies -->
+  <g>
+    <path d="M94 600c10-62 22-106 48-146" stroke="#18301f" stroke-width="3" stroke-linecap="round"/>
+    <path d="M124 482c-2-18 6-32 22-38" stroke="#18301f" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M112 522c-12-10-16-24-9-37" stroke="#18301f" stroke-width="2.5" stroke-linecap="round"/>
+    <g transform="translate(144 440)">
+      <ellipse rx="17" ry="11" transform="rotate(18)" fill="url(#poppy)"/>
+      <ellipse rx="17" ry="11" transform="rotate(86)" fill="url(#poppy)"/>
+      <ellipse rx="17" ry="11" transform="rotate(154)" fill="url(#poppy)"/>
+      <ellipse rx="15" ry="10" transform="rotate(222)" fill="url(#poppy)"/>
+      <circle r="5.5" fill="#160a10"/>
+    </g>
+    <g transform="translate(104 512) scale(0.8)">
+      <ellipse rx="16" ry="10" transform="rotate(15)" fill="url(#poppy)"/>
+      <ellipse rx="16" ry="10" transform="rotate(84)" fill="url(#poppy)"/>
+      <ellipse rx="16" ry="10" transform="rotate(153)" fill="url(#poppy)"/>
+      <ellipse rx="14" ry="9" transform="rotate(222)" fill="url(#poppy)"/>
+      <circle r="5" fill="#160a10"/>
+    </g>
+    <path d="M716 600c-14-58-36-104-64-140" stroke="#18301f" stroke-width="3" stroke-linecap="round"/>
+    <path d="M678 490c4-18-4-32-20-40" stroke="#18301f" stroke-width="2.5" stroke-linecap="round"/>
+    <g transform="translate(652 452) scale(0.95)">
+      <ellipse rx="17" ry="11" transform="rotate(20)" fill="url(#poppy)"/>
+      <ellipse rx="17" ry="11" transform="rotate(88)" fill="url(#poppy)"/>
+      <ellipse rx="17" ry="11" transform="rotate(156)" fill="url(#poppy)"/>
+      <ellipse rx="15" ry="10" transform="rotate(224)" fill="url(#poppy)"/>
+      <circle r="5.5" fill="#160a10"/>
+    </g>
+    <g transform="translate(706 530) scale(0.7)">
+      <ellipse rx="16" ry="10" transform="rotate(17)" fill="url(#poppy)"/>
+      <ellipse rx="16" ry="10" transform="rotate(86)" fill="url(#poppy)"/>
+      <ellipse rx="16" ry="10" transform="rotate(155)" fill="url(#poppy)"/>
+      <ellipse rx="14" ry="9" transform="rotate(223)" fill="url(#poppy)"/>
+      <circle r="5" fill="#160a10"/>
+    </g>
+  </g>
+
+  <!-- grain -->
+  <rect width="800" height="600" filter="url(#grain)" opacity="0.5" style="mix-blend-mode:soft-light"/>
+</svg>

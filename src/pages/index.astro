@@ -1,0 +1,605 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import SoundtrackPlayer from "@/components/letter/SoundtrackPlayer.astro";
+import { Badge } from "@/components/starwind/badge";
+import { Button } from "@/components/starwind/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/starwind/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/starwind/tooltip";
+
+import Feather from "@tabler/icons/outline/feather.svg";
+import Flame from "@tabler/icons/outline/flame.svg";
+import FlameOff from "@tabler/icons/outline/flame-off.svg";
+import Flower from "@tabler/icons/outline/flower.svg";
+import Heart from "@tabler/icons/outline/heart.svg";
+import Mail from "@tabler/icons/outline/mail.svg";
+import MailOpened from "@tabler/icons/outline/mail-opened.svg";
+import X from "@tabler/icons/outline/x.svg";
+
+import type { Track } from "@/lib/soundtrack-player";
+
+/*
+ * Banda sonora de la carta.
+ *
+ * Edita aquí los títulos, artistas y archivos de las tres pistas.
+ * Los archivos deben vivir en `public/audio/`; la primera fuente que el
+ * navegador pueda reproducir se usa automáticamente (m4a → mp3 → ogg).
+ * Al terminar la última pista, la lista vuelve a empezar.
+ */
+const tracks: Track[] = [
+  
+  {
+    title: "Fake Plastic Trees",
+    artist: "Radiohead",
+    sources: [
+      { src: "/audio/Radiohead - Fake Plastic Trees.m4a", type: "audio/mp4" },
+      { src: "/audio/pista-2.mp3", type: "audio/mpeg" },
+      { src: "/audio/pista-2.ogg", type: "audio/ogg" },
+    ],
+  },
+  {
+    title: "Ángel",
+    artist: "Elefante",
+    sources: [
+      { src: "/audio/Elefante - Ángel (Letra⧸Lyrics).m4a", type: "audio/mp4" },
+      { src: "/audio/pista-1.mp3", type: "audio/mpeg" },
+      { src: "/audio/pista-1.ogg", type: "audio/ogg" },
+    ],
+  },
+  {
+    title: "Follow You",
+    artist: "Bring Me The Horizon",
+    sources: [
+      { src: "/audio/Bring Me The Horizon - Follow You (Sub español).m4a", type: "audio/mp4" },
+      { src: "/audio/pista-3.mp3", type: "audio/mpeg" },
+      { src: "/audio/pista-3.ogg", type: "audio/ogg" },
+    ],
+  },
+];
+---
+
+<Layout>
+  <div
+    id="letter-page"
+    class="relative min-h-dvh overflow-x-clip"
+    data-candle="true"
+  >
+    <!-- Ambient atmosphere -->
+    <div class="ambient-layer" aria-hidden="true">
+      <div class="ambient-glow ambient-glow-top"></div>
+      <div class="ambient-glow ambient-glow-left"></div>
+      <div class="ambient-glow ambient-glow-right"></div>
+      <div class="candle-glow"></div>
+      <div class="grain-overlay"></div>
+      <span class="ember ember-1"></span>
+      <span class="ember ember-2"></span>
+      <span class="ember ember-3"></span>
+      <span class="ember ember-4"></span>
+    </div>
+
+    <!-- Masthead: brand only, no navigation -->
+    <header
+      class="masthead relative z-20 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 pt-6 pb-2 sm:px-6 lg:px-8"
+    >
+      <div class="flex items-center gap-2 sm:gap-3">
+        <Badge
+          tone="primary"
+          appearance="soft"
+          size="sm"
+          eyebrow
+          class="hidden sm:inline-flex"
+        >
+          Capítulo III
+        </Badge>
+        <span
+          class="inline-flex items-center gap-[0.45rem] rounded-full border border-border/80 bg-obsidian-raised/70 px-[0.7rem] py-[0.4rem] text-[0.68rem] font-medium tracking-[0.12em] text-muted-foreground uppercase backdrop-blur-md max-sm:hidden"
+        >
+          <span
+            class="size-[0.42rem] shrink-0 animate-live-pulse rounded-full bg-crimson"
+          ></span>
+          <span id="status-badge">3 meses juntos · 90 días</span>
+        </span>
+      </div>
+    </header>
+
+    <main
+      class="relative z-10 mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"
+    >
+      <!-- Hero -->
+      <section
+        class="hero flex flex-col justify-between gap-8 pt-[clamp(2.5rem,7vw,5rem)] animate-rise-in min-[900px]:flex-row min-[900px]:items-end"
+      >
+        <div class="max-w-2xl">
+          <div
+            class="mt-6 flex flex-wrap items-center gap-[0.55rem] text-[0.72rem] font-medium tracking-[0.16em] text-muted-foreground uppercase"
+          >
+            <span
+              class="size-[0.42rem] shrink-0 animate-live-pulse rounded-full bg-crimson"
+            ></span>
+            <span id="hero-hours">2.160 horas</span>
+            <span class="text-border">·</span>
+            <span>∞</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-[0.6rem] animate-rise-in-delayed">
+          <Tooltip>
+            <TooltipTrigger>
+              <Button
+                id="candle-btn"
+                variant="outline"
+                size="md"
+                aria-pressed="true"
+                class="action-button"
+              >
+                <Flame
+                  data-candle-icon="on"
+                  class="text-crimson-bright"
+                  aria-hidden="true"
+                />
+                <FlameOff
+                  data-candle-icon="off"
+                  class="text-muted-foreground"
+                  aria-hidden="true"
+                />
+                <span>Velas</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom"
+              >Enciende o apaga la luz</TooltipContent
+            >
+          </Tooltip>
+
+          <Button
+            id="open-letter-btn"
+            variant="primary"
+            size="md"
+            class="action-button primary-action"
+            aria-expanded="false"
+            data-open="false"
+          >
+            <Mail data-open-icon="closed" aria-hidden="true" />
+            <MailOpened
+              data-open-icon="open"
+              class="hidden"
+              aria-hidden="true"
+            />
+            <span id="open-letter-label">Abrir carta</span>
+          </Button>
+        </div>
+      </section>
+
+      <!-- Main experience -->
+      <div
+        class="mt-10 grid grid-cols-1 items-start gap-6 lg:mt-14 lg:grid-cols-12 lg:gap-8"
+      >
+        <!-- Side atmosphere / relics -->
+        <aside class="order-2 flex flex-col gap-5 lg:order-1 lg:col-span-4">
+          <!-- Soundtrack -->
+          <SoundtrackPlayer tracks={tracks} />
+
+          <!-- Oath -->
+          <Card class="ritual-card">
+            <CardHeader>
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <p
+                    class="text-[0.66rem] leading-[1.4] font-semibold tracking-[0.26em] text-muted-foreground uppercase"
+                  >
+                    Por ti
+                  </p>
+                  <CardTitle class="mt-2 font-display text-xl"
+                    >Lo que siento por ti</CardTitle
+                  >
+                </div>
+                <Feather
+                  class="size-5 text-crimson-bright"
+                  aria-hidden="true"
+                />
+              </div>
+            </CardHeader>
+            <CardContent class="flex flex-col gap-5">
+              <blockquote
+                class="font-display text-[1.18rem] italic leading-[1.55] text-foreground text-pretty"
+              >
+                «No es quien te extraña a las 2 de la mañana cuando está solo en
+                su cuarto y no puede dormir. Es quien te extraña a las 3 de la
+                tarde cuando se está riendo con sus amigos y piensa... "ojalá
+                estuviera aquí"...»
+              </blockquote>
+
+              <div class="grid grid-cols-2 gap-2 text-center">
+                <div
+                  class="flex flex-col gap-[0.2rem] rounded-[0.65rem] border border-border/70 bg-muted bg-[linear-gradient(150deg,rgba(255,255,255,0.03),transparent_45%)] px-[0.4rem] py-3"
+                >
+                  <span
+                    id="stat-days"
+                    class="font-display text-[1.65rem] leading-none font-semibold text-primary"
+                    >90</span
+                  >
+                  <span
+                    class="text-[0.6rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase"
+                    >Días</span
+                  >
+                </div>
+
+                <div
+                  class="flex flex-col gap-[0.2rem] rounded-[0.65rem] border border-border/70 bg-muted bg-[linear-gradient(150deg,rgba(255,255,255,0.03),transparent_45%)] px-[0.4rem] py-3"
+                >
+                  <span
+                    class="font-display text-[1.65rem] leading-none font-semibold text-crimson-bright"
+                    >∞</span
+                  >
+                  <span
+                    class="text-[0.6rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase"
+                    >Destino</span
+                  >
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <!-- Relic -->
+          <Card class="ritual-card gap-4 pt-0">
+            <div
+              class="relative h-56 overflow-hidden rounded-t-xl border-b border-border/70"
+            >
+              <img
+                src="/images/1794017108122.avif"
+                alt="Dos amantes bajo una luna carmesí, rodeados de amapolas y arcos góticos"
+                class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover/card:scale-[1.04]"
+                loading="lazy"
+              />
+              <div
+                class="absolute inset-0 bg-[linear-gradient(to_top,#0b090d_2%,rgba(11,9,13,0.14)_45%,transparent_70%),linear-gradient(to_right,rgba(11,9,13,0.45),transparent_40%)]"
+              >
+              </div>
+              <Badge
+                tone="primary"
+                appearance="frosted"
+                size="sm"
+                eyebrow
+                class="absolute top-3 left-3 border-primary/30"
+              >
+                Un recuerdo
+              </Badge>
+              <div
+                class="absolute inset-x-[0.9rem] bottom-[0.9rem] flex items-end justify-between gap-3"
+              >
+                <div>
+                  <p class="font-display text-base text-foreground">
+                    Mi motivo
+                  </p>
+                  <p
+                    class="text-[0.68rem] tracking-[0.16em] text-parchment/70 uppercase"
+                  >
+                    Para ser feliz, eres tu.
+                  </p>
+                </div>
+                <Heart class="size-5 text-crimson-bright" aria-hidden="true" />
+              </div>
+            </div>
+            <CardContent class="pt-1">
+              <p class="text-sm leading-relaxed text-muted-foreground">
+                En ti encontre un amor bueno y de verdad, un amor que me hace
+                sentir amado y querido como nunca nadie lo ha hecho. Gracias por
+                ser mi refugio, mi pz, mi compañera. Te amo con todo mi corazón
+                y siempre lo haré.
+              </p>
+            </CardContent>
+          </Card>
+        </aside>
+
+        <!-- Centerpiece -->
+        <section
+          class="order-1 lg:order-2 lg:col-span-8"
+          aria-label="Pergamino interactivo"
+        >
+          <div
+            id="letter-stage"
+            class="letter-stage group/letter relative mt-[1.2rem]"
+            data-open="false"
+          >
+            <button
+              type="button"
+              id="instruction-pill"
+              class="instruction-pill relative z-40 mx-auto mb-4 flex w-fit max-w-full animate-hint-bob items-center justify-center gap-2 rounded-full border border-crimson/25 bg-obsidian-raised/85 px-4 py-[0.55rem] text-center text-[0.72rem] font-medium tracking-[0.04em] text-muted-foreground shadow-[0_8px_26px_-18px_rgba(0,0,0,0.9)] backdrop-blur-md transition-[opacity,transform] duration-[400ms] group-data-[open=true]/letter:pointer-events-none group-data-[open=true]/letter:[animation:none] group-data-[open=true]/letter:-translate-y-1.5 group-data-[open=true]/letter:opacity-0 hover:border-crimson/45 hover:text-foreground"
+            >
+              <Heart class="size-4 text-crimson-bright" aria-hidden="true" />
+              Toca el sello para revelar el pergamino
+            </button>
+
+            <div class="stage-canvas">
+              <div
+                class="sealed-hint absolute top-2 left-1/2 z-0 w-[min(100%,30rem)] -translate-x-1/2 text-center transition-[opacity,transform] duration-[600ms] group-data-[open=true]/letter:pointer-events-none group-data-[open=true]/letter:-translate-y-3.5 group-data-[open=true]/letter:opacity-0"
+                aria-hidden="true"
+              >
+                <span
+                  class="text-[0.66rem] leading-[1.4] font-semibold tracking-[0.26em] text-muted-foreground uppercase"
+                  >Una pequeña carta que hice para ti</span
+                >
+                <p
+                  class="mt-3 font-display text-xl italic text-foreground/70 sm:text-2xl"
+                >
+                  Te amoooooooooo con todo mi ser
+                </p>
+                <span
+                  class="mx-auto mt-[1.4rem] block h-[4.5rem] w-px bg-gradient-to-b from-crimson/50 to-transparent"
+                ></span>
+              </div>
+
+              <!-- Parchment -->
+              <article
+                id="parchment-sheet"
+                class="letter-sheet"
+                aria-label="Carta de amor"
+                aria-hidden="true"
+                inert
+              >
+                <div
+                  class="paper-topbar flex shrink-0 items-center justify-between gap-3 border-b border-[rgba(120,90,70,0.18)] bg-gradient-to-b from-[#f2e8d8] to-[#ece0cd] px-[0.9rem] py-[0.55rem] text-parchment-muted"
+                >
+                  <div class="binder-holes flex gap-2" aria-hidden="true">
+                    <span
+                      class="size-[0.55rem] rounded-full bg-[#d8c9b3] shadow-[inset_0_1px_2px_rgba(80,60,50,0.35),0_1px_0_rgba(255,255,255,0.6)]"
+                    ></span>
+                    <span
+                      class="size-[0.55rem] rounded-full bg-[#d8c9b3] shadow-[inset_0_1px_2px_rgba(80,60,50,0.35),0_1px_0_rgba(255,255,255,0.6)]"
+                    ></span>
+                    <span
+                      class="size-[0.55rem] rounded-full bg-[#d8c9b3] shadow-[inset_0_1px_2px_rgba(80,60,50,0.35),0_1px_0_rgba(255,255,255,0.6)]"
+                    ></span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="font-serif text-[0.68rem] font-semibold tracking-[0.14em] uppercase"
+                    >
+                      Pág. 01 · <span data-page-days>90 días</span>
+                    </span>
+                    <Button
+                      id="close-letter-btn"
+                      variant="ghost"
+                      size="icon-sm"
+                      class="paper-close size-[1.8rem] rounded-full text-[#7a5f52] hover:bg-[rgba(120,90,70,0.12)] hover:text-[#4c0519]"
+                      aria-label="Guardar la carta en el sobre"
+                    >
+                      <X class="size-4" aria-hidden="true" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div class="paper-surface">
+                  <div class="paper-margin-line" aria-hidden="true"></div>
+                  <div class="paper-watermark" aria-hidden="true">
+                    <Heart class="size-[18rem]" />
+                  </div>
+
+                  <div
+                    class="letter-body relative z-[1] min-h-[21rem] font-serif text-[1.16rem] leading-8 font-medium tracking-[0.012em] text-[#241a1e] max-sm:min-h-[19rem] max-sm:text-[1.05rem] max-sm:leading-[30px]"
+                  >
+                    <p
+                      class="letter-salutation font-display text-[1.42rem] font-bold text-wine"
+                      data-letter="lover"
+                    >
+                      Kelly, el amor de vida
+                    </p>
+                    <p>
+                      Hoy cumplimos <strong
+                        class="font-bold text-[#881337]"
+                        data-letter="anniversary">3 meses juntos</strong
+                      > —
+                      <span
+                        class="font-semibold text-crimson-deep"
+                        data-letter="days">90 días</span
+                      > desde que somos novios. Nuestro encuentro fue una hermosa
+                      coincidencia.
+                    </p>
+                    <p>
+                      Desde que empece a sentir algo por ti, debo confesar que
+                      fantaseaba con la idea de un futuro juntos, y a la par, me
+                      sentía un poco asustado, de que quizas mi pasado se
+                      repitiera y que todo saliera mal. Recuerdo que en esos
+                      dias de ilusion y miedo, una musica me hacia recordarte y
+                      anhelar un futuro contigo, donde todo fuera real, donde no
+                      se sintiera un amor de plastico, sino un amor verdadero,
+                      un amor que me hiciera sentir vivo y completo, esta musica
+                      era "Radiohead - Fake Plastic Trees ", y recuerdo gritar
+                      mentalmemte "She looks like real thing", como un reclamo
+                      desesperado al destino, de que encuentre ese amor y ese
+                      futuro en ti. Y hoy, al mirar hacia atrás, me doy cuenta
+                      de que ese futuro que soñaba, se ha hecho realidad.
+                    </p>
+                    <p>
+                      Esta musica me hizo desear un amor verdadero a tu lado, y
+                      hoy puedo decir que lo he conseguido. Gracias por ser mi
+                      compañera, mi amiga, mi gran apoyo y mi amor. Gracias por
+                      hacerme sentir amado y querido como nunca nadie lo ha
+                      hecho. Contigo quiero construir un futuro largo y lleno de
+                      amor, donde podamos crecer juntos y simplemente ser
+                      nostros mismos. ¡Eres el amor de mi vida!
+                    </p>
+                    <p
+                      class="letter-vow font-semibold italic text-crimson-deep"
+                    >
+                      Te amoooooooooooooooooo
+                    </p>
+                    <p class="letter-closing mt-4">Con todo mi corazón,</p>
+                    <p
+                      class="letter-signature pb-1.5 font-display text-[1.15rem] font-bold tracking-[0.14em] text-[#400014] uppercase"
+                      data-letter="sender"
+                    >
+                      Michael V.
+                    </p>
+                  </div>
+
+                  <div class="paper-footer">
+                    <span class="paper-anno">Gracias por todo mi amor</span>
+                    <span class="paper-fidelis">
+                      <Heart class="size-4" aria-hidden="true" />
+                      Te amo
+                    </span>
+                  </div>
+
+                  <span class="paper-wax" aria-hidden="true">III</span>
+                </div>
+              </article>
+
+              <!-- Envelope -->
+              <div class="envelope" id="envelope">
+                <div class="envelope-shadow" aria-hidden="true"></div>
+                <div class="envelope-back" aria-hidden="true">
+                  <div class="envelope-radial"></div>
+                </div>
+
+                <div class="envelope-pockets" aria-hidden="true">
+                  <div class="envelope-pocket-left"></div>
+                  <div class="envelope-pocket-right"></div>
+                  <div class="envelope-pocket-bottom"></div>
+                </div>
+
+                <div
+                  class="envelope-flap"
+                  id="envelope-flap"
+                  aria-hidden="true"
+                >
+                  <div class="flap-sheen"></div>
+                </div>
+
+                <div class="envelope-address" aria-hidden="true">
+                  <p class="monogram">K <span>&amp;</span> M</p>
+                  <span class="address-line">Con cariño para ti</span>
+                </div>
+
+                <div class="wax-seal-wrap">
+                  <button
+                    type="button"
+                    id="wax-seal-btn"
+                    class="wax-seal"
+                    aria-label="Romper el sello y abrir la carta"
+                  >
+                    <span class="seal-ring" aria-hidden="true"></span>
+                    <span class="seal-inner" aria-hidden="true">
+                      <span class="seal-numeral">III</span>
+                      <Flower class="size-4" />
+                    </span>
+                  </button>
+                  <span class="seal-caption" aria-hidden="true">Abreme</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  import { toast } from "@/components/starwind/toast";
+
+  const page = document.getElementById("letter-page") as HTMLElement;
+  const stage = document.getElementById("letter-stage") as HTMLElement;
+  const sheet = document.getElementById("parchment-sheet") as HTMLElement;
+  const openBtn = document.getElementById(
+    "open-letter-btn",
+  ) as HTMLButtonElement;
+  const openLabel = document.getElementById("open-letter-label") as HTMLElement;
+  const closeBtn = document.getElementById(
+    "close-letter-btn",
+  ) as HTMLButtonElement;
+  const sealBtn = document.getElementById("wax-seal-btn") as HTMLButtonElement;
+  const envelope = document.getElementById("envelope") as HTMLElement;
+  const instructionPill = document.getElementById(
+    "instruction-pill",
+  ) as HTMLButtonElement;
+  const candleBtn = document.getElementById("candle-btn") as HTMLButtonElement;
+
+  let isOpen = false;
+  function setOpen(next: boolean, announce = true) {
+    if (next === isOpen) return;
+    isOpen = next;
+
+    stage.dataset.open = String(next);
+    openBtn.dataset.open = String(next);
+    openBtn.setAttribute("aria-expanded", String(next));
+    openLabel.textContent = next ? "Cerrar carta" : "Abrir carta";
+
+    sheet.toggleAttribute("inert", !next);
+    sheet.setAttribute("aria-hidden", String(!next));
+
+    if (next) {
+      window.setTimeout(() => {
+        const rect = stage.getBoundingClientRect();
+        if (
+          rect.top < 12 ||
+          rect.top > 140 ||
+          rect.bottom > window.innerHeight
+        ) {
+          const top = window.scrollY + rect.top - 16;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+      }, 260);
+
+      if (announce) {
+        toast.success("Gracias por abrir la carta amor", {
+          description: "Expero que te guste, la hice con cariño",
+        });
+      }
+    } else {
+      if (sheet.contains(document.activeElement)) {
+        openBtn.focus();
+      }
+      if (announce) {
+        toast.info("Cerraste la carta amor", {
+          description:
+            "Puse todo lo que siento por ti en ella, espero que lo recuerdes",
+        });
+      }
+    }
+  }
+
+  function toggleCandle(announce = true) {
+    const next = page.dataset.candle !== "true";
+    page.dataset.candle = String(next);
+    candleBtn.setAttribute("aria-pressed", String(next));
+    if (announce) {
+      if (next) {
+        toast.success("Vela encendida", {
+          description: "Como el amor en mis ojos cuando te veo.",
+        });
+      } else {
+        toast.info("Vela apagada", {
+          description: "Pero mi amor por ti sigue encendido",
+        });
+      }
+    }
+  }
+
+  /* Envelope controls */
+  sealBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setOpen(true);
+  });
+
+  envelope.addEventListener("click", () => {
+    if (!isOpen) setOpen(true);
+  });
+
+  instructionPill.addEventListener("click", () => setOpen(true));
+  openBtn.addEventListener("click", () => setOpen(!isOpen));
+  closeBtn.addEventListener("click", () => setOpen(false));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && isOpen) setOpen(false);
+  });
+
+  candleBtn.addEventListener("click", () => toggleCandle());
+</script>

@@ -1,0 +1,41 @@
+---
+import "@/styles/starwind.css";
+import "@/styles/letter.css";
+import { Toaster } from "@/components/starwind/toast";
+---
+
+<!doctype html>
+<html class="dark" lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#0b090d" />
+		<meta
+			name="description"
+			content="Memento Mori & Amor — Cartas de Sangre. Un santuario digital de cartas, juramentos y recuerdos entre la penumbra y la eternidad."
+		/>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Geist:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+			rel="stylesheet"
+		/>
+		<meta name="generator" content={Astro.generator} />
+		<title>Cartas de Sangre — Memento Mori & Amor</title>
+	</head>
+	<body>
+		<slot />
+		<Toaster position="bottom-right" />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100%;
+	}
+</style>

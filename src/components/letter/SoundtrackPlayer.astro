@@ -1,0 +1,179 @@
+---
+import { Button } from "@/components/starwind/button";
+import { Card, CardContent } from "@/components/starwind/card";
+import { Progress } from "@/components/starwind/progress";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/starwind/tooltip";
+
+import PlayerPause from "@tabler/icons/outline/player-pause.svg";
+import PlayerPlay from "@tabler/icons/outline/player-play.svg";
+import PlayerSkipBack from "@tabler/icons/outline/player-skip-back.svg";
+import PlayerSkipForward from "@tabler/icons/outline/player-skip-forward.svg";
+import Volume from "@tabler/icons/outline/volume.svg";
+
+import type { Track } from "@/lib/soundtrack-player";
+
+interface Props {
+  tracks: Track[];
+}
+
+const { tracks } = Astro.props;
+const tracksJson = JSON.stringify(tracks);
+const firstTrack = tracks[0];
+---
+
+<Card
+  class="ritual-card"
+  data-soundtrack
+  data-tracks={tracksJson}
+  data-playing="false"
+>
+  <CardContent class="flex flex-col gap-5">
+    <div class="flex items-center justify-between gap-3">
+      <div class="min-w-0 flex-1">
+        <p
+          data-soundtrack-title
+          class="truncate font-display text-lg leading-snug text-foreground"
+        >
+          {firstTrack?.title ?? "Sin pista"}
+        </p>
+        <p
+          data-soundtrack-artist
+          class="truncate text-xs text-muted-foreground"
+        >
+          {firstTrack?.artist ?? ""}
+        </p>
+      </div>
+      <div
+        class="equalizer"
+        data-soundtrack-equalizer
+        data-playing="false"
+        aria-hidden="true"
+      >
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="seek-wrapper">
+        <Progress
+          data-soundtrack-progress
+          value={0}
+          max={100}
+          label="Progreso de la canción"
+          class="audio-progress h-1.5 bg-white/10"
+        />
+        <input
+          data-soundtrack-seek
+          class="seek-range"
+          type="range"
+          min="0"
+          max="0"
+          step="0.1"
+          value="0"
+          aria-label="Buscar en la canción"
+          disabled
+        />
+      </div>
+      <div
+        class="mt-2 flex items-center justify-between text-[0.68rem] font-medium tracking-[0.16em] text-muted-foreground uppercase"
+      >
+        <span data-soundtrack-current>00:00</span>
+        <span data-soundtrack-total>00:00</span>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-1">
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              data-soundtrack-prev
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Canción anterior"
+              class="text-muted-foreground hover:text-foreground"
+            >
+              <PlayerSkipBack aria-hidden="true" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Canción anterior</TooltipContent>
+        </Tooltip>
+
+        <Button
+          data-soundtrack-play
+          variant="primary"
+          size="icon"
+          aria-label="Reproducir melodía"
+          aria-pressed="false"
+          class="play-button"
+        >
+          <PlayerPlay data-play-icon="play" aria-hidden="true" />
+          <PlayerPause data-play-icon="pause" aria-hidden="true" />
+        </Button>
+
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              data-soundtrack-next
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Canción siguiente"
+              class="text-muted-foreground hover:text-foreground"
+            >
+              <PlayerSkipForward aria-hidden="true" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Canción siguiente</TooltipContent>
+        </Tooltip>
+      </div>
+
+      <div class="flex items-center gap-2 text-muted-foreground">
+        <Volume class="size-4" aria-hidden="true" />
+        <input
+          data-soundtrack-volume
+          class="volume-range"
+          type="range"
+          min="0"
+          max="100"
+          value="70"
+          aria-label="Volumen de la melodía"
+        />
+      </div>
+    </div>
+
+    <audio data-soundtrack-audio preload="metadata" class="hidden"></audio>
+  </CardContent>
+</Card>
+
+<style>
+  /* Estado por defecto: play visible, pause oculto */
+  [data-soundtrack-play] [data-play-icon="pause"] {
+    display: none;
+  }
+
+  /* Reproduciendo (por aria-pressed del botón) */
+  [data-soundtrack-play][aria-pressed="true"] [data-play-icon="play"] {
+    display: none;
+  }
+  [data-soundtrack-play][aria-pressed="true"] [data-play-icon="pause"] {
+    display: inline-flex;
+  }
+
+  /* Reproduciendo (por data-playing de la tarjeta, como respaldo) */
+  [data-soundtrack][data-playing="true"] [data-play-icon="play"] {
+    display: none;
+  }
+  [data-soundtrack][data-playing="true"] [data-play-icon="pause"] {
+    display: inline-flex;
+  }
+</style>
+
+<script>
+  import { initSoundtrackPlayers } from "@/lib/soundtrack-player";
+
+  initSoundtrackPlayers();
+</script>
