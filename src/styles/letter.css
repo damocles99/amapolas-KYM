@@ -948,6 +948,7 @@
   .paper-wax {
     right: 0.8rem;
     bottom: 4rem;
+    display: none; 
   }
 }
 
